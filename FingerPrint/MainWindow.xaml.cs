@@ -24,5 +24,55 @@ namespace FingerPrint
         {
             InitializeComponent();
         }
+
+        private void ClaheBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ErosionBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DilationBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OpeningBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClosingBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void K3MBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MinutiaeBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
