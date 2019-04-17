@@ -18,9 +18,9 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <MenuItem Header="File">
-                <MenuItem Name="Load" Header="Load"   Click="Load_Click"></MenuItem>
-                <MenuItem Name="Save" Header="Save"   Click="Save_Click"></MenuItem>
-                <MenuItem Name="Reset" Header="Reset" Click="Reset_Click"></MenuItem>
+                <MenuItem Name="LoadBtn" Header="Load"   Click="Load_Click"></MenuItem>
+                <MenuItem Name="SaveBtn" Header="Save"   Click="Save_Click"></MenuItem>
+                <MenuItem Name="ResetBtn" Header="Reset" Click="Reset_Click"></MenuItem>
             </MenuItem>
         </Menu>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="5">
@@ -32,7 +32,7 @@
             <Button Name="K3MBtn"      Margin="5" Padding="5" Click="K3MBtn_Click"     >Apply K3M</Button>
             <Button Name="MinutiaeBtn" Margin="5" Padding="5" Click="MinutiaeBtn_Click">Minutiae </Button>
         </StackPanel>
-        <Image Grid.Row="1" Grid.Column="1"></Image>
-        <Image Grid.Row="1" Grid.Column="2"></Image>
+        <Image Name="InputImage" Grid.Row="1" Grid.Column="1"></Image>
+        <Image Name="OutputImage" Grid.Row="1" Grid.Column="2"></Image>
     </Grid>
 </Window>

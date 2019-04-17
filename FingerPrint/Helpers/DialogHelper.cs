@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace FingerPrint
 {
@@ -19,6 +20,7 @@ namespace FingerPrint
         public static bool ShowOpenFileDialog(out FileInfo file)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Select a picture";
             dialog.Filter = "All Images|*.mim;*.bmp;*.png;*.jpg;*.jpeg;*.gif;*.tif|All Files|*.*";
             dialog.Multiselect = false;
 
@@ -73,9 +75,40 @@ namespace FingerPrint
         /// </summary>
         /// <param name="message">Message to show.</param>
         /// <returns>User's Choise.</returns>
-        public static MessageBoxResult SaveRequest(string message)
+        public static MessageBoxResult SaveRequest(string message) =>
+            MessageBox.Show(message, string.Empty, MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
+
+        /// <summary>
+        /// Saves image with given format.
+        /// </summary>
+        /// <param name="file">Represents all of file's properties</param>
+        public static void Save(FileInfo file)
         {
-            return MessageBox.Show(message, string.Empty, MessageBoxButton.YesNoCancel, MessageBoxImage.Exclamation);
+            try
+            {
+                switch (file.Extension.ToLower())
+                {
+                    case ".bmp" : SaveBitmap(file,  new BmpBitmapEncoder ()); break;
+                    case ".png" : SaveBitmap(file,  new PngBitmapEncoder ()); break;
+                    case ".jpg" :
+                    case ".jpeg": SaveBitmap(file, new JpegBitmapEncoder()); break;
+                    case ".gif" : SaveBitmap(file,  new GifBitmapEncoder ()); break;
+                    case ".tif" : SaveBitmap(file,  new TiffBitmapEncoder()); break;
+                    default:
+                        throw new ArgumentException("Doesnt support this format");
+                }
+            }
+            catch (Exception ex)
+            {
+                DialogHelper.ShowCriticalError(ex.Message);
+            }
+        }
+
+        private static void SaveBitmap(FileInfo file, BitmapEncoder encoder)
+        {
+            FileStream output = File.Open(file.FullName, FileMode.OpenOrCreate, FileAccess.Write);
+            encoder.Save(output);
+            output.Close();
         }
     }
 }
