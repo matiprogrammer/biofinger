@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using FingerPrint.Algorithms;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -57,7 +58,9 @@ namespace FingerPrint
 
         private void K3MBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            var algorithm = new K3M(this.picture.Bitmap);
+            picture = algorithm.Apply(this.picture);
+            OutputImage.Source = picture.BitmapSource;
         }
 
         private void MinutiaeBtn_Click(object sender, RoutedEventArgs e)
@@ -67,35 +70,28 @@ namespace FingerPrint
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-            FileInfo file = null;
-            if (!DialogHelper.ShowOpenFileDialog(out file) == true)
-            {
+            if (!DialogHelper.ShowOpenFileDialog(out var file))
                 return;
-            }
-            InputImage.Source = new BitmapImage(new Uri(file.FullName));
-            FileStream fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
-            using (System.Drawing.Image ab = System.Drawing.Image.FromStream(fs))
+            this.InputImage.Source = new BitmapImage(new Uri(file.FullName));
+            var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read);
+            using (var ab = Image.FromStream(fs))
             {
-                bitmap = new Bitmap(ab);
-                reset = new Bitmap(ab);
+                this.picture = new Picture((Bitmap)ab);
             }
         }
    
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            FileInfo file = null;
-            if (!DialogHelper.ShowSaveFileDialog(out file))
+            if (!DialogHelper.ShowSaveFileDialog(out var file))
                 return;
             DialogHelper.Save(file);
         }
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
-            InputImage.Source = reset.GetBitmapSource();
-            bitmap = new Bitmap(reset);
+            this.InputImage.Source = this.picture.Reset().GetBitmapSource();
+            this.picture = new Picture(this.picture.Bitmap);
         }
-
-        Bitmap bitmap;
-        Bitmap reset;
+        Picture picture;
     }
 }
