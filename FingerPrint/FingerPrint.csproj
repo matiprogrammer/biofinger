@@ -59,6 +59,7 @@
     </ApplicationDefinition>
     <Compile Include="Algorithms\Alghorithm.cs" />
     <Compile Include="Algorithms\K3M.cs" />
+    <Compile Include="Algorithms\Otsu.cs" />
     <Compile Include="Enums\RGB.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

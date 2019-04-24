@@ -24,11 +24,8 @@
             </MenuItem>
         </Menu>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="5">
-            <Button Name="ClaheBtn"    Margin="5" Padding="5" Click="ClaheBtn_Click"   >Clahe    </Button>
-            <Button Name="ErosionBtn"  Margin="5" Padding="5" Click="ErosionBtn_Click" >Erosion  </Button>
-            <Button Name="DilationBtn" Margin="5" Padding="5" Click="DilationBtn_Click">Dilation </Button>
-            <Button Name="OpeningBtn"  Margin="5" Padding="5" Click="OpeningBtn_Click" >Opening  </Button>
-            <Button Name="ClosingBtn"  Margin="5" Padding="5" Click="ClosingBtn_Click" >Closing  </Button>
+            <Button Name="Binarization" Margin="5" Padding="5" Click="Binarization_Click">Binarization</Button>
+            <Button Name="Swap" Margin="5" Padding="5" Click="Swap_Click">Swap bitmaps</Button>
             <Button Name="K3MBtn"      Margin="5" Padding="5" Click="K3MBtn_Click"     >Apply K3M</Button>
             <Button Name="MinutiaeBtn" Margin="5" Padding="5" Click="MinutiaeBtn_Click">Minutiae </Button>
         </StackPanel>

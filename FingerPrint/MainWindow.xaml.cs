@@ -30,32 +30,6 @@ namespace FingerPrint
         {
             InitializeComponent();
         }
-
-        private void ClaheBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ErosionBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DilationBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void OpeningBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ClosingBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void K3MBtn_Click(object sender, RoutedEventArgs e)
         {
             var algorithm = new K3M(this.picture.Bitmap);
@@ -77,9 +51,11 @@ namespace FingerPrint
             using (var ab = Image.FromStream(fs))
             {
                 this.picture = new Picture((Bitmap)ab);
+                this.reset = new Picture((Bitmap)ab);
+                this.outputPicture = new Picture((Bitmap)ab);
             }
         }
-   
+
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (!DialogHelper.ShowSaveFileDialog(out var file))
@@ -89,9 +65,27 @@ namespace FingerPrint
 
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
-            this.InputImage.Source = this.picture.Reset().GetBitmapSource();
-            this.picture = new Picture(this.picture.Bitmap);
+            this.InputImage.Source = this.reset.Reset().GetBitmapSource();
+            this.picture = new Picture(this.reset.Bitmap);
         }
-        Picture picture;
+        private Picture picture;
+        private Picture reset;
+        private Picture outputPicture;
+        private void Binarization_Click(object sender, RoutedEventArgs e)
+        {
+            Otsu binarization = new Otsu();
+            outputPicture = new Picture(binarization.ApplyThreshold(70, outputPicture.Bitmap));
+            OutputImage.Source = outputPicture.BitmapSource;
+        }
+
+        private void Swap_Click(object sender, RoutedEventArgs e)
+        {
+            OutputImage.Source = picture.BitmapSource;
+            InputImage.Source = outputPicture.BitmapSource;
+            var a = new Picture(picture.Bitmap);
+            var b = new Picture(outputPicture.Bitmap);
+            picture = new Picture(b.Bitmap);
+            outputPicture = new Picture(a.Bitmap);
+        }
     }
 }

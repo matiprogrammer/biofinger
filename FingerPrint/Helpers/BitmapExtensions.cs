@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -104,6 +105,69 @@ namespace FingerPrint
         {
             ImageConverter converter = new ImageConverter();
             return (byte[])converter.ConvertTo(img, typeof(byte[]));
+        }
+
+        public static unsafe Bitmap GrayscaleConversion(this Bitmap bitmap, RGB channel)
+        {
+            //Picture picture = new Picture(bitmap);
+            //int width = picture.Width;
+            //int height = picture.Height;
+            //BitmapData data = picture.LockBits(ImageLockMode.ReadWrite);
+            //int stride = data.Stride;
+            //byte* ptr = (byte*)data.Scan0.ToPointer();
+            //int bpp = stride / width;
+            //for (int i = 0; i < height; i++)
+            //{
+            //    for (int j = 0; j < stride; j += 3)
+            //    {
+            //        int offset = i * stride + j;
+            //        switch (RGB.G)
+            //        {
+            //            case RGB.RGB:
+
+            //                ptr[i + j]
+            //                break;
+            //            case RGB.R:
+            //                break;
+            //            case RGB.G:
+            //                break;
+            //            case RGB.B:
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //    }
+            //}
+
+            Picture grayscaled = new Picture(bitmap);
+
+            for (int i = 0; i < bitmap.Height; i++)
+            {
+                for (int j = 0; j < bitmap.Width; j++)
+                {
+                    var pixel = bitmap.GetPixel(i, j);
+                    switch (channel)
+                    {
+                        case RGB.RGB:
+                            var gray = (pixel.R + pixel.G + pixel.B) / 3;
+                            grayscaled.Bitmap.SetPixel(i, j, Color.FromArgb(gray, gray, gray));
+                            break;
+                        case RGB.R:
+                            grayscaled.Bitmap.SetPixel(i, j, Color.FromArgb(pixel.R, pixel.R, pixel.R));
+                            break;
+                        case RGB.G:
+                            grayscaled.Bitmap.SetPixel(i, j, Color.FromArgb(pixel.G, pixel.G, pixel.G));
+                            break;
+                        case RGB.B:
+                            grayscaled.Bitmap.SetPixel(i, j, Color.FromArgb(pixel.B, pixel.B, pixel.B));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            return grayscaled.Bitmap.Clone(new Rectangle(0, 0, grayscaled.Width, grayscaled.Height), System.Drawing.Imaging.PixelFormat.Format8bppIndexed);
         }
 
         [DllImport("gdi32.dll")]
